@@ -55,7 +55,7 @@
         $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
         $mail->Username   = 'ricardo.batel2@gmail.com';                     //SMTP username
-        $mail->Password   = 'jgervybijxqmdpqz';                               //SMTP password
+        $mail->Password   = '';                               //SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
         $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
         $mail->CharSet = 'UTF-8';
@@ -63,7 +63,7 @@
         
         //Recipients
         $mail->setFrom('ricardo.batel2@gmail.com', 'Ricardo Batel Remetente');
-        $mail->addAddress('ricardo.batel2@gmail.com', 'Ricardo Batel Destinatário');     //Add a recipient
+        $mail->addAddress($mensagem->__get('para'));     //Add a recipient
         //$mail->addReplyTo('info@example.com', 'Information');
         //$mail->addCC('cc@example.com');
         //$mail->addBCC('bcc@example.com');
@@ -74,12 +74,12 @@
 
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
-        $mail->Subject = 'Oi. Eu sou o assunto';
-        $mail->Body    = 'Oi. Eu sou o conteúdo do <strong>e-mail</strong>.';
-        $mail->AltBody = 'Oi. Eu sou o conteúdo do e-mail.';
+        $mail->Subject = $mensagem->__get('assunto');
+        $mail->Body    = $mensagem->__get('mensagem');
+        $mail->AltBody = 'É necessário utilizar um client que suporte HTML para ter acesso total ao conteúdo dessa mensagem';
 
         $mail->send();
-        echo 'Message has been sent';
+        echo 'E-mail enviado com sucesso';
     } catch (Exception $e) {
         echo "Não foi possível enviar este e-mail! Por favor tente mais tarde. Detalhes do erro: {$mail->ErrorInfo}";
     }
